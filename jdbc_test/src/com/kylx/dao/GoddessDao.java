@@ -33,12 +33,38 @@ public class GoddessDao {
 		prepareStatement.setString(8, g.getUpdate_user());
 		prepareStatement.setLong(9, g.getIsdel());
 		
-		
 		prepareStatement.execute();
 	}
-	public void  updateGoddess() {
+	public void  updateGoddess(Goddess g) throws Exception {
+		Connection conn = DBUtil.getConnection();
+		String sql = "" +
+				" update imooc_goddess " +
+				" set user_name =?, sex=?, age=?, birthday=?, email=?, mobile=?, " +
+				" update_user=?, update_date = current_date(), isdel=? " +
+				" where id = ? ";
+		PreparedStatement prepareStatement = conn.prepareStatement(sql);
+		
+		prepareStatement.setString(1, g.getUser_name());
+		prepareStatement.setInt(2, g.getSex());
+		prepareStatement.setInt(3, g.getAge());
+		prepareStatement.setDate(4,  new Date(g.getBirthday().getTime()));
+		prepareStatement.setString(5,  g.getEmail());
+		prepareStatement.setString(6, g.getMobile());
+		prepareStatement.setString(7, g.getUpdate_user());
+		prepareStatement.setLong(8, g.getIsdel());
+		prepareStatement.setInt(9, g.getId());
+		prepareStatement.execute();
 	}
-	public void delGoddess() {
+	public void delGoddess(Integer id) throws SQLException {
+		Connection conn = DBUtil.getConnection();
+		String sql = "" +
+				" delete from imooc_goddess " +
+				" where id = ? ";
+		PreparedStatement prepareStatement = conn.prepareStatement(sql);
+		
+	
+		prepareStatement.setInt(1, id);
+		prepareStatement.execute();
 		
 	}
 	public List<Goddess> query() throws Exception {
@@ -58,8 +84,34 @@ public class GoddessDao {
 		}
 		return gs;
 	}
-	public Goddess get() {
-		return null;
+	public Goddess get(Integer id) throws SQLException {
+		Connection conn = DBUtil.getConnection();
+		String sql = "" +
+				" select * from imooc_goddess " +
+				" where id = ? ";
+		PreparedStatement prepareStatement = conn.prepareStatement(sql);
+		
+		prepareStatement.setInt(1, id);
+		ResultSet rs = prepareStatement.executeQuery();
+	
+
+		Goddess g = null;
+		while(rs.next()) {
+			g  = new Goddess();
+			g.setId(rs.getInt("id"));
+			g.setUser_name(rs.getString("user_name"));
+			g.setAge(rs.getInt("age"));
+			g.setSex(rs.getInt("sex"));
+			g.setBirthday(rs.getDate("birthday"));
+			g.setEmail(rs.getString("email"));
+			g.setMobile(rs.getString("mobile"));
+			g.setCreate_date(rs.getDate("create_date"));
+			g.setCreate_user(rs.getString("create_user"));
+			g.setUpdate_date(rs.getDate("update_date"));
+			g.setUpdate_user(rs.getString("update_user"));
+			g.setIsdel(rs.getInt("isdel"));
+		}
+		return g;
 	}
 	
 }

@@ -13,15 +13,21 @@ public class GoddessAction {
 		Goddess g1 = new Goddess();
 		
 		g1.setUser_name("lucy");
-		g1.setAge(22);
+		g1.setAge(28);
 		g1.setSex(1);
 		g1.setBirthday(new Date());
 		g1.setEmail("lucy@imooc.com");
-		g1.setMobile("17710769110");
-		g1.setCreate_user("admin");
-		g1.setUpdate_user("admin");
+		g1.setMobile("17711211111");
+		g1.setUpdate_user("ADMIN");
 		g1.setIsdel(1);
 		
-		g.addGoddess(g1);
+		Goddess g2 = g.get(3);
+		System.out.println(g2);
+		
+//		g1.setId(4);
+//		g.delGoddess(4);
+//		g.updateGoddess(g1);
+		
+//		g.addGoddess(g1);
 	}
 }
